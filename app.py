@@ -140,10 +140,10 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
     return {
         "medidas": {
-                "Largo": round(recomendacion["board_length"], 2) 'feet',
-                "Grosor": round(recomendacion["board_thickness"], 2) 'inches',
-                "Ancho": round(recomendacion["board_width"], 2) 'inches',
-                "Volumen": round(recomendacion["board_volume"], 2) 'liters',
+                "Largo": round(recomendacion["board_length"], 2) + 'feet',
+                "Grosor": round(recomendacion["board_thickness"], 2) + 'inches',
+                "Ancho": round(recomendacion["board_width"], 2) + 'inches',
+                "Volumen": round(recomendacion["board_volume"], 2) + 'liters',
         },
         "tipo": tipo_tabla
     }
