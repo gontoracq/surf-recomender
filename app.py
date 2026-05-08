@@ -10,6 +10,7 @@ df = pd.read_csv('df_surf.csv')
 df2 = pd.read_csv('responses_limpio.csv')
 df3 = pd.read_csv('Formulario_limpio.csv', sep=';')
 df4 = pd.read_csv('beginner.csv', sep=';')
+df5 = pd.read_csv('first_timer.csv', sep=';')
 
 # ---------------- FEATURE ENGINEERING ----------------
 
@@ -44,6 +45,15 @@ df4.columns.values[5] = "surfer_weight"
 df4.columns.values[6] = "surfer_experience"
 df4["masa_corporal"] = df4['surfer_weight'] / (df4['surfer_height']*df4['surfer_height'])
 
+df5.columns.values[0] = "board_length"
+df5.columns.values[1] = "board_width"
+df5.columns.values[2] = "board_thickness"
+df5.columns.values[3] = "board_volume"
+df5.columns.values[4] = "surfer_height"
+df5.columns.values[5] = "surfer_weight"
+df5.columns.values[6] = "surfer_experience"
+df5["masa_corporal"] = df5['surfer_weight'] / (df5['surfer_height']*df5['surfer_height'])
+
 feat = ["board_length", "board_width", "board_thickness","board_volume",
         "surfer_height", "surfer_weight", "surfer_experience", "masa_corporal"]
 
@@ -67,7 +77,7 @@ feat = [
     "masa_corporal"
 ]
 
-frames = [df,df2,df3,df4]
+frames = [df,df2,df3,df4,df5]
 result = pd.concat(frames)
 
 features = [
