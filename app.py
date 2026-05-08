@@ -139,7 +139,12 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
         tipo_tabla = 'Softboard o Hardboard'
 
     return {
-        "medidas": [round(i, 2) for i in recomendacion],
+        "medidas": {
+                "Largo": round(recomendacion["board_length"], 2),
+                "Grosor": round(recomendacion["board_thickness"], 2),
+                "Ancho": round(recomendacion["board_width"], 2),
+                "Volumen": round(recomendacion["board_volume"], 2),
+        },
         "tipo": tipo_tabla
     }
 
