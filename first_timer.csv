@@ -1,0 +1,10 @@
+size;ancho;grosor;litros;altura;peso;nivel;olas_grandes;edad;type
+7.2;20.5;2.8;56;165;80;First-timer;0;19;soft
+7.2;20.5;2.8;56;175;77;First-timer;0;24;soft
+7.2;20.5;2.8;56;180;70;First-timer;0;30;soft
+7.6;21;3;61;178;85;First-timer;0;18;soft
+7.6;21;3;61;185;77;First-timer;0;23;soft
+7.6;21;3;61;180;70;First-timer;0;36;soft
+8.0;21.5;3;65;160;70;First-timer;0;20;soft
+8.0;21.5;3;65;178;80;First-timer;0;30;soft
+8.0;21.5;3;65;185;82;First-timer;0;40;soft
