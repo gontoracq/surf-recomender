@@ -135,7 +135,7 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
     if recomendacion["board_volume"] > 60:
         tipo_tabla = 'Softboard'
-    elif 50 <= recomendacion[3] <= 60:
+    elif 50 <= recomendacion["board_volume"] <= 60:
         tipo_tabla = 'Softboard o Hardboard'
 
     return {
