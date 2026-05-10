@@ -167,11 +167,15 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
 # ------------------ SCRAPPING -------------------------
 
-def generar_busqueda_decathlon(volumen, tipo):
+def generar_busqueda_decathlon(medidas, tipo):
 
-    volumen = int(volumen)
+    volumen = medidas["Volumen"].replace(" L", "")
 
-    query = f"surfboard {volumen}L"
+    largo_raw = medidas["Largo"].replace(" ft", "")
+
+    largo = convertir_pies_a_surf(float(largo_raw))
+
+    query = f"surfboard {largo} {volumen}"
 
     if "Softboard" in tipo:
         query += " foam"
@@ -222,14 +226,19 @@ if st.button("Recomendar"):
     
     # ------- RECOMIENDA TABLAS DE LA WEB SEGUN RESULTADO --------
     
-    volumen = float(
-    resultado["medidas"]["Volumen"]
-    .replace(" L", "")
-    )
+    def convertir_pies_a_surf(feet_decimal):
+
+        pies = int(feet_decimal)
+    
+        pulgadas = round((feet_decimal - pies) * 12)
+    
+        return f"{pies}'{pulgadas}"
+    
+    volumen = float(resultado["medidas"]["Volumen"].replace(" L", ""))
     
     url_decathlon = generar_busqueda_decathlon(
-    volumen,
-    resultado["tipo"]
+        resultado["medidas"],
+        resultado["tipo"]
     )
     
     st.write("## 🏄 Tablas similares en Decathlon")
