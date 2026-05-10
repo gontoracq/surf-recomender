@@ -16,6 +16,10 @@ df5 = pd.read_csv('first_timer.csv', sep=';')
 
 df["masa_corporal"] = df['surfer_weight'] / (df['surfer_height']*df['surfer_height'])
 
+#df board_type es tipo de tabla de surf
+#first_timer type es tipo de tabla de surf
+#evolutivas type es tipo tabla de surf
+
 df2.columns.values[1] = "board_length"
 df2.columns.values[2] = "board_width"
 df2.columns.values[3] = "board_thickness"
