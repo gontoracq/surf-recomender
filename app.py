@@ -173,7 +173,7 @@ def generar_busqueda_decathlon(medidas, tipo):
 
     largo_raw = medidas["Largo"].replace(" ft", "")
 
-    largo = convertir_pies_a_surf(float(largo_raw))
+    largo = convertir_formato_surf(largo_raw)
 
     query = f"surfboard {largo} {volumen}"
 
@@ -226,13 +226,9 @@ if st.button("Recomendar"):
     
     # ------- RECOMIENDA TABLAS DE LA WEB SEGUN RESULTADO --------
     
-    def convertir_pies_a_surf(feet_decimal):
+    def convertir_formato_surf(largo):
 
-        pies = int(feet_decimal)
-    
-        pulgadas = round((feet_decimal - pies) * 12)
-    
-        return f"{pies}'{pulgadas}"
+        return str(largo).replace(".", "'")
     
     volumen = float(resultado["medidas"]["Volumen"].replace(" L", ""))
     
