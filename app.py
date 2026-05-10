@@ -4,6 +4,9 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.impute import KNNImputer
 import numpy as np
 
+import requests
+from bs4 import BeautifulSoup
+
 # ---------------- CARGA DATOS ----------------
 
 df = pd.read_csv('df_surf.csv')
@@ -128,7 +131,7 @@ knn = NearestNeighbors(
 
 knn.fit(X_weighted)
 
-# ---------------- FUNCION ----------------
+# ---------------- ALGORITMO RECOMENDADOR ----------------
 
 def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
@@ -161,6 +164,53 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
         },
         "tipo": tipo_tabla
     }
+
+# ------------------ SCRAPPING -------------------------
+
+def buscar_tablas_decathlon(volumen_recomendado):
+
+    url = "https://www.decathlon.co.uk/sports/surf-beach/surfboards"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    soup = BeautifulSoup(response.text, "lxml")
+
+    productos = []
+
+    cards = soup.find_all("a")
+
+    for card in cards:
+
+        texto = card.get_text(" ", strip=True)
+
+        href = card.get("href")
+
+        if texto and href:
+
+            # Buscar litros tipo "55L"
+            import re
+
+            match = re.search(r'(\d+)\s?L', texto)
+
+            if match:
+
+                volumen = int(match.group(1))
+
+                # margen de similitud
+                if abs(volumen - volumen_recomendado) <= 10:
+
+                    productos.append({
+                        "nombre": texto[:120],
+                        "volumen": volumen,
+                        "link": href if href.startswith("http")
+                                else f"https://www.decathlon.co.uk{href}"
+                    })
+
+    return productos[:5]
 
 # ---------------- UI ----------------
 
@@ -201,3 +251,22 @@ if st.button("Recomendar"):
     st.write("### Tipo")
 
     st.write(resultado["tipo"])
+    
+    # ------- RECOMIENDA TABLAS DE LA WEB SEGUN RESULTADO --------
+    
+    volumen = float(
+    resultado["medidas"]["Volumen"]
+    .replace(" L", "")
+    )
+    
+    tablas = buscar_tablas_decathlon(volumen)
+    
+    st.write("## 🏄 Tablas similares en Decathlon")
+    
+    for tabla in tablas:
+    
+        st.markdown(
+            f"### [{tabla['nombre']}]({tabla['link']})"
+        )
+    
+        st.write(f"Volumen: {tabla['volumen']} L")
