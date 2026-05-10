@@ -167,50 +167,18 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
 # ------------------ SCRAPPING -------------------------
 
-def buscar_tablas_decathlon(volumen_recomendado):
+def generar_busqueda_decathlon(volumen, tipo):
 
-    url = "https://www.decathlon.co.uk/sports/surf-beach/surfboards"
+    volumen = int(volumen)
 
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
+    query = f"surfboard {volumen}L"
 
-    response = requests.get(url, headers=headers)
+    if "Softboard" in tipo:
+        query += " foam"
 
-    soup = BeautifulSoup(response.text, "lxml")
+    query = query.replace(" ", "%20")
 
-    productos = []
-
-    cards = soup.find_all("a")
-
-    for card in cards:
-
-        texto = card.get_text(" ", strip=True)
-
-        href = card.get("href")
-
-        if texto and href:
-
-            # Buscar litros tipo "55L"
-            import re
-
-            match = re.search(r'(\d+)\s?L', texto)
-
-            if match:
-
-                volumen = int(match.group(1))
-
-                # margen de similitud
-                if abs(volumen - volumen_recomendado) <= 10:
-
-                    productos.append({
-                        "nombre": texto[:120],
-                        "volumen": volumen,
-                        "link": href if href.startswith("http")
-                                else f"https://www.decathlon.co.uk{href}"
-                    })
-
-    return productos[:5]
+    return f"https://www.decathlon.co.uk/search?Ntt={query}"
 
 # ---------------- UI ----------------
 
@@ -259,14 +227,15 @@ if st.button("Recomendar"):
     .replace(" L", "")
     )
     
-    tablas = buscar_tablas_decathlon(volumen)
+    url_decathlon = generar_busqueda_decathlon(
+    volumen,
+    resultado["tipo"]
+    )
     
     st.write("## 🏄 Tablas similares en Decathlon")
     
-    for tabla in tablas:
-    
-        st.markdown(
-            f"### [{tabla['nombre']}]({tabla['link']})"
-        )
-    
-        st.write(f"Volumen: {tabla['volumen']} L")
+    st.markdown(
+        f"""
+        ### [🔎 Ver tablas recomendadas en Decathlon]({url_decathlon})
+        """
+    )
