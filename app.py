@@ -171,8 +171,8 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
     
     else:
         confianza = "Baja"
-        recomendacion = y.iloc[idx[0]].median()
-
+        recomendacion = y.iloc[idx[0]].median(numeric_only=True)
+        
     if olas_grandes:
         recomendacion[0] += 0.1
 
