@@ -260,27 +260,18 @@ if st.button("Recomendar"):
         olas
     )
 
-    st.markdown("""
-    <style>
-    .reco-box {
-        background-color: #d4f8d4;
-        padding: 20px;
-        border-radius: 15px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    st.markdown('<div class="reco-box">', unsafe_allow_html=True)
-    
     st.success("Tabla recomendada")
-    
+
     st.write("### Medidas")
+
     st.write(resultado["medidas"])
-    
+
     st.write("### Tipo")
+
     st.write(resultado["tipo"])
     
     st.write("### Confianza recomendación")
+
     st.write(f"Similitud encontrada: {resultado['confianza']}")
 
     #st.write(f"{resultado['confianza']}% similitud con surfers reales")
@@ -299,11 +290,12 @@ if st.button("Recomendar"):
     )
     
     st.write("## 🏄 Tablas similares en Decathlon")
-    st.markdown(
-        f"### [🔎 Ver tablas recomendadas en Decathlon]({url_decathlon})"
-    )
     
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        ### [🔎 Ver tablas recomendadas en Decathlon]({url_decathlon})
+        """
+    )
     
 #print(df['surfer_height'].head())
 #print(df2['surfer_height'].head())
