@@ -161,9 +161,17 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
     
     distancias, idx = knn.kneighbors(user_weighted)
 
-    confianza = round((1 - distancias.mean()) * 100, 1)
-
-    recomendacion = y.iloc[idx[0]].median()
+    distancia_media = distancias.mean()
+    
+    if distancia_media < 0.05:
+        confianza = "Alta"
+    
+    elif distancia_media < 0.15:
+        confianza = "Media"
+    
+    else:
+        confianza = "Baja"
+        recomendacion = y.iloc[idx[0]].median()
 
     if olas_grandes:
         recomendacion[0] += 0.1
@@ -209,8 +217,23 @@ def generar_busqueda_decathlon(medidas, tipo):
 
 st.title("🏄 Recomendador de tablas de surf")
 
-altura = st.slider("Altura (cm)", 140, 220, 175)
-peso = st.slider("Peso (kg)", 40, 130, 75)
+col1, col2 = st.columns(2)
+
+with col1:
+    altura = st.number_input(
+        "Altura (cm)",
+        min_value=140,
+        max_value=220,
+        value=175
+    )
+
+with col2:
+    peso = st.number_input(
+        "Peso (kg)",
+        min_value=40,
+        max_value=130,
+        value=75
+    )
 
 nivel = st.selectbox(
     "Nivel",
@@ -247,7 +270,7 @@ if st.button("Recomendar"):
     
     st.write("### Confianza recomendación")
 
-    st.progress(min(resultado["confianza"] / 100, 1.0))
+    st.write(f"Similitud encontrada: {resultado['confianza']}")
 
     st.write(f"{resultado['confianza']}% similitud con surfers reales")
     
