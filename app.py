@@ -161,7 +161,9 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
     
     distancias, idx = knn.kneighbors(user_weighted)
 
-    distancia_media = distancias.mean()
+    distancia_media = float(distancias.mean())
+    
+    recomendacion = y.iloc[idx[0]].median(numeric_only=True)
     
     if distancia_media < 0.05:
         confianza = "Alta"
@@ -171,12 +173,10 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
     
     else:
         confianza = "Baja"
-        recomendacion = y.iloc[idx[0]].median(numeric_only=True)
-        
+    
     if olas_grandes:
-        recomendacion[0] += 0.1
-
-    tipo_tabla = "Hardboard"
+        recomendacion["board_length"] += 0.1
+        tipo_tabla = "Hardboard"
 
     if recomendacion["board_volume"] > 60:
         tipo_tabla = 'Softboard'
