@@ -289,7 +289,7 @@ if st.button("Recomendar"):
         resultado["tipo"]
     )
     
-    st.write("## 🏄 Tablas similares en Decathlon")
+    st.write("## 🏄 Tablas similares:")
     
     st.markdown(
         f"""
