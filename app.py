@@ -165,6 +165,8 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
     
     recomendacion = y.iloc[idx[0]].median(numeric_only=True)
     
+    tipo_tabla = "Hardboard"
+    
     if distancia_media < 0.05:
         confianza = "Alta"
     
@@ -272,7 +274,7 @@ if st.button("Recomendar"):
 
     st.write(f"Similitud encontrada: {resultado['confianza']}")
 
-    st.write(f"{resultado['confianza']}% similitud con surfers reales")
+    #st.write(f"{resultado['confianza']}% similitud con surfers reales")
     
     # ------- RECOMIENDA TABLAS DE LA WEB SEGUN RESULTADO --------
     
