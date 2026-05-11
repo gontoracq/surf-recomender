@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from sklearn.neighbors import NearestNeighbors
 from sklearn.impute import KNNImputer
+from sklearn.preprocessing import StandardScaler
 import numpy as np
 
 import requests
@@ -17,7 +18,7 @@ df5 = pd.read_csv('first_timer.csv', sep=';')
 
 # ---------------- FEATURE ENGINEERING ----------------
 
-df["masa_corporal"] = df['surfer_weight'] / (df['surfer_height']*df['surfer_height'])
+df["masa_corporal"] = df['surfer_weight'] / ((df['surfer_height'] / 100) ** 2)
 
 #df board_type es tipo de tabla de surf
 #first_timer type es tipo de tabla de surf
@@ -31,7 +32,7 @@ df2.columns.values[5] = "surfer_height"
 df2.columns.values[6] = "surfer_weight"
 df2.columns.values[7] = "surfer_experience"
 
-df2["masa_corporal"] = df2['surfer_weight'] / (df2['surfer_height']*df2['surfer_height'])
+df2["masa_corporal"] = df2['surfer_weight'] / ((df2['surfer_height'] / 100) ** 2)
 
 df3.columns.values[0] = "board_length"
 df3.columns.values[1] = "board_width"
@@ -40,8 +41,8 @@ df3.columns.values[3] = "board_volume"
 df3.columns.values[4] = "surfer_height"
 df3.columns.values[5] = "surfer_weight"
 df3.columns.values[6] = "surfer_experience"
-df3["masa_corporal"] = df3['surfer_weight'] / (df3['surfer_height']*df3['surfer_height'])
 
+df3["masa_corporal"] = df3['surfer_weight'] / ((df3['surfer_height'] / 100) ** 2)
 
 df4.columns.values[0] = "board_length"
 df4.columns.values[1] = "board_width"
@@ -50,7 +51,8 @@ df4.columns.values[3] = "board_volume"
 df4.columns.values[4] = "surfer_height"
 df4.columns.values[5] = "surfer_weight"
 df4.columns.values[6] = "surfer_experience"
-df4["masa_corporal"] = df4['surfer_weight'] / (df4['surfer_height']*df4['surfer_height'])
+
+df4["masa_corporal"] = df4['surfer_weight'] / ((df4['surfer_height'] / 100) ** 2)
 
 df5.columns.values[0] = "board_length"
 df5.columns.values[1] = "board_width"
@@ -59,7 +61,8 @@ df5.columns.values[3] = "board_volume"
 df5.columns.values[4] = "surfer_height"
 df5.columns.values[5] = "surfer_weight"
 df5.columns.values[6] = "surfer_experience"
-df5["masa_corporal"] = df5['surfer_weight'] / (df5['surfer_height']*df5['surfer_height'])
+
+df5["masa_corporal"] = df5['surfer_weight'] / ((df5['surfer_height'] / 100) ** 2)
 
 feat = ["board_length", "board_width", "board_thickness","board_volume",
         "surfer_height", "surfer_weight", "surfer_experience", "masa_corporal"]
@@ -69,7 +72,7 @@ df2 = df2[feat]
 df3 = df3.drop([7, 8])
 
 df['board_length'] = df['board_length'] * 3.28084
-df['surfer_height'] = df['surfer_height'] * 100
+#df['surfer_height'] = df['surfer_height'] * 100
 
 df = df.round(3)
 
@@ -122,7 +125,13 @@ pesos = np.array([1, 1, 100, 1])
 X = result[features]
 y = result[board_features]
 
-X_weighted = X * pesos
+# Escalado
+scaler = StandardScaler()
+
+X_scaled = scaler.fit_transform(X)
+
+# Aplicar pesos
+X_weighted = X_scaled * pesos
 
 knn = NearestNeighbors(
     n_neighbors=3,
@@ -135,13 +144,24 @@ knn.fit(X_weighted)
 
 def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
-    masa_corporal = peso / ((altura) * (altura))
+    altura_m = altura / 100
+    masa_corporal = peso / (altura_m ** 2)
 
     user_input = np.array([
         [altura, peso, nivel, masa_corporal]
-    ]) * pesos
+    ])
+    
+    # Escalar igual que training
+    user_scaled = scaler.transform(user_input)
+    
+    # Aplicar pesos
+    user_weighted = user_scaled * pesos
+    
+    _, idx = knn.kneighbors(user_weighted)
+    
+    distancias, idx = knn.kneighbors(user_weighted)
 
-    _, idx = knn.kneighbors(user_input)
+    confianza = round((1 - distancias.mean()) * 100, 1)
 
     recomendacion = y.iloc[idx[0]].median()
 
@@ -162,7 +182,8 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
                 "Ancho": f"{round(recomendacion['board_width'], 2)} in",
                 "Volumen": f"{round(recomendacion['board_volume'], 2)} L",
         },
-        "tipo": tipo_tabla
+        "tipo": tipo_tabla,
+        "confianza": confianza
     }
 
 # ------------------ SCRAPPING -------------------------
@@ -224,6 +245,12 @@ if st.button("Recomendar"):
 
     st.write(resultado["tipo"])
     
+    st.write("### Confianza recomendación")
+
+    st.progress(min(resultado["confianza"] / 100, 1.0))
+
+    st.write(f"{resultado['confianza']}% similitud con surfers reales")
+    
     # ------- RECOMIENDA TABLAS DE LA WEB SEGUN RESULTADO --------
     
     def convertir_formato_surf(largo):
@@ -244,3 +271,6 @@ if st.button("Recomendar"):
         ### [🔎 Ver tablas recomendadas en Decathlon]({url_decathlon})
         """
     )
+    
+#print(df['surfer_height'].head())
+#print(df2['surfer_height'].head())
