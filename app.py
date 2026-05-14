@@ -74,7 +74,7 @@ df = df[feat]
 df2 = df2[feat]
 df3 = df3.drop([7, 8])
 
-df['board_length'] = df['board_length'] * 3.28084
+#df['board_length'] = df['board_length'] * 3.28084
 #df['surfer_height'] = df['surfer_height'] * 100
 
 df = df.round(3)
@@ -314,15 +314,15 @@ if st.button("Recomendar"):
 
     st.write(resultado["tipo"])
     
-    st.write("### Confianza recomendación")
-
-    st.write(f"Similitud encontrada: {resultado['confianza']}")
-    
     st.write("### Porcentaje de similitud")
 
     st.progress(resultado["score"] / 100)
 
     st.write(f"{resultado['score']}% similitud con surfers reales")
+    
+    st.write("### Confianza recomendación")
+    
+    st.write(f"Similitud encontrada: {resultado['confianza']}")
     
     #st.write("### Precisión del algoritmo")
 
@@ -352,4 +352,4 @@ if st.button("Recomendar"):
         ### [🔎 Ver tablas recomendadas en Decathlon]({url_decathlon})
         """
     )
-    
+        
