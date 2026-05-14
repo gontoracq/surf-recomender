@@ -46,6 +46,11 @@ def parse_surf_length(x):
         return float(x) * 12
     except:
         return np.nan
+    
+def inches_to_feet_str(inches):
+    feet = int(inches // 12)
+    remaining = round(inches % 12, 1)
+    return f"{feet}'{remaining}\""
 
 # ---------------- CARGA DATOS ----------------
 
@@ -267,7 +272,7 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
     return {
         "medidas": {
-                "Largo": f"{round(recomendacion['board_length'], 2)} ft",
+                "Largo": f"inches_to_feet_str(recomendacion['board_length']) ft",
                 "Grosor": f"{round(recomendacion['board_thickness'], 2)} in",
                 "Ancho": f"{round(recomendacion['board_width'], 2)} in",
                 "Volumen": f"{round(recomendacion['board_volume'], 2)} L",
