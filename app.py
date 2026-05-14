@@ -11,6 +11,42 @@ from sklearn.metrics import mean_absolute_error, r2_score
 import requests
 from bs4 import BeautifulSoup
 
+import re
+
+def parse_surf_length(x):
+    if pd.isna(x):
+        return np.nan
+    
+    x = str(x).strip()
+
+    # Caso 5.10 1/2 o similares
+    if " " in x:
+        parts = x.split()
+
+        base = parts[0]
+        frac = parts[1] if len(parts) > 1 else "0"
+
+        # 5.10 -> pies + decimales mal usados
+        try:
+            feet = float(base)
+        except:
+            return np.nan
+
+        # fracción tipo 1/2
+        if "/" in frac:
+            num, den = frac.split("/")
+            frac_val = float(num) / float(den)
+        else:
+            frac_val = 0
+
+        return feet * 12 + frac_val * 12
+
+    # Caso simple 5.10 o 5.1
+    try:
+        return float(x) * 12
+    except:
+        return np.nan
+
 # ---------------- CARGA DATOS ----------------
 
 df = pd.read_csv('df_surf.csv')
@@ -70,11 +106,17 @@ df5["masa_corporal"] = df5['surfer_weight'] / ((df5['surfer_height'] / 100) ** 2
 feat = ["board_length", "board_width", "board_thickness","board_volume",
         "surfer_height", "surfer_weight", "surfer_experience", "masa_corporal"]
 
+df["board_length"] = df["board_length"].apply(parse_surf_length)
+df2["board_length"] = df2["board_length"].apply(parse_surf_length)
+df3["board_length"] = df3["board_length"].apply(parse_surf_length)
+df4["board_length"] = df4["board_length"].apply(parse_surf_length)
+df5["board_length"] = df5["board_length"].apply(parse_surf_length)
+
 df = df[feat]
 df2 = df2[feat]
 df3 = df3.drop([7, 8])
 
-df['board_length'] = df['board_length'] * 3.28084
+#df['board_length'] = df['board_length'] * 3.28084
 #df['surfer_height'] = df['surfer_height'] * 100
 
 df = df.round(3)
