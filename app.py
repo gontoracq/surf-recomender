@@ -272,7 +272,7 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
 
     return {
         "medidas": {
-                "Largo": f"inches_to_feet_str(recomendacion['board_length']) ft",
+                "Largo": f"{inches_to_feet_str(recomendacion['board_length'])} ft",
                 "Grosor": f"{round(recomendacion['board_thickness'], 2)} in",
                 "Ancho": f"{round(recomendacion['board_width'], 2)} in",
                 "Volumen": f"{round(recomendacion['board_volume'], 2)} L",
