@@ -123,7 +123,7 @@ result[features + board_features] = imputer.fit_transform(
     result[features + board_features]
 )
 
-pesos = np.array([1, 1, 100, 1])
+pesos = np.array([2, 2, 3, 1])
 
 X = result[features]
 y = result[board_features]
@@ -171,6 +171,7 @@ mae = mean_absolute_error(y_test, predicciones)
 # Score R2
 r2 = r2_score(y_test, predicciones)
 
+
 # Reentrenar con TODOS los datos
 knn.fit(X_weighted)
 
@@ -196,6 +197,9 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
     distancias, idx = knn.kneighbors(user_weighted)
 
     distancia_media = float(distancias.mean())
+    
+    # Score similitud
+    score_similitud = max(0, (1 - distancia_media)) * 100
     
     recomendacion = y.iloc[idx[0]].median(numeric_only=True)
     
@@ -227,7 +231,8 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
                 "Volumen": f"{round(recomendacion['board_volume'], 2)} L",
         },
         "tipo": tipo_tabla,
-        "confianza": confianza
+        "confianza": confianza,
+        "score": round(score_similitud, 1)
     }
 
     
@@ -313,11 +318,17 @@ if st.button("Recomendar"):
 
     st.write(f"Similitud encontrada: {resultado['confianza']}")
     
-    st.write("### Precisión del algoritmo")
+    st.write("### Score recomendación")
 
-    st.write(f"Error medio (MAE): {round(mae, 2)}")
+    st.progress(resultado["score"] / 100)
 
-    st.write(f"Precisión R²: {round(r2 * 100, 2)}%")
+    st.write(f"{resultado['score']}% similitud con surfers reales")
+    
+    #st.write("### Precisión del algoritmo")
+
+    #st.write(f"Error medio (MAE): {round(mae, 2)}")
+
+    #st.write(f"Precisión R²: {round(r2 * 100, 2)}%")
 
     #st.write(f"{resultado['confianza']}% similitud con surfers reales")
     
