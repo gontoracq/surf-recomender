@@ -1,11 +1,11 @@
 #,¿Qué medida de longitud tiene tu tabla (en pies p.e. 6.0)?,¿Qué medida de anchura tiene tu tabla (en pulgadas p.e. 19.5)?,¿Qué medida tiene tu tabla de grosor (en pulgadas p.e. 2.5)?,¿Qué volumen tiene tu tabla (en litros p.e. 30)?,¿Cuánto mides (en cm p.e. 180)?,¿Cuánto pesas (en kg p.e. 75)?,¿Cuál es tu nivel de surfing?,¿Surfeas olas de mas de 1.5 metros con esta tabla?,¿Qué edad tienes?,Response Type,Start Date (UTC),Stage Date (UTC),Submit Date (UTC),Network ID,Tags
-nuyum8ojyagnxlwnuyumuchh8cxgqryv,5.8,19.25,2.375,28,175,66,Intermediate,1,27,completed,2025-03-13 18:10:14,,2025-03-13 18:11:45,854b4de7b8,
-jo5c61ndx0jqoxucxjo5c4dtqo9d0j6f,5.10,19.5,2.375,32,183,61,Intermediate,0,29,completed,2025-03-13 18:09:09,,2025-03-13 18:10:38,6ec4ec2b86,
-46tukaa2iwauz52ix8146tukyjs3w593,5.10,18.66,2.5,27.8,177,68,Intermediate,1,28,completed,2025-03-13 18:08:32,,2025-03-13 18:09:58,360c4174c7,
-g9vcifqjfgd9myx7ewg9vw2v6s4qevsr,5.11,19.5,2.5,32.15,179,80,Advanced,1,31,completed,2025-03-13 18:04:29,,2025-03-13 18:06:16,8f3db7997c,
-gdso1qxwypv1kcn3gdllu48pybb5mgde,5.10,20.5,3.0,33,185,81,Intermediate,1,30,completed,2025-03-13 18:04:08,,2025-03-13 18:07:35,1a403e6414,
+"nuyum8ojyagnxlwnuyumuchh8cxgqryv,""5,8"",19.25,2.3/8,28,""1,75"",66,Intermediate,1,27,completed,2025-03-13 18:10:14,,2025-03-13 18:11:45,854b4de7b8,"
+jo5c61ndx0jqoxucxjo5c4dtqo9d0j6f,5.10,No lo se,No lo se,32,183,61,Intermediate,0,29,completed,2025-03-13 18:09:09,,2025-03-13 18:10:38,6ec4ec2b86,
+46tukaa2iwauz52ix8146tukyjs3w593,5.10 1/2,18 2/3,2.5,27.8,1.77,68,Intermediate,1,28,completed,2025-03-13 18:08:32,,2025-03-13 18:09:58,360c4174c7,
+g9vcifqjfgd9myx7ewg9vw2v6s4qevsr,5.11,19.5,2.5,32.15,1.79,80,Advanced,1,31,completed,2025-03-13 18:04:29,,2025-03-13 18:06:16,8f3db7997c,
+gdso1qxwypv1kcn3gdllu48pybb5mgde,6.0,20.5,3.0,33,185,81,Intermediate,1,30,completed,2025-03-13 18:04:08,,2025-03-13 18:07:35,1a403e6414,
 wvy5eelvn9rd1huk5dwvy54fdlyj871w,5.11,19,2.5,30,183,80,Advanced,0,25,completed,2025-03-13 18:04:00,,2025-03-13 18:05:03,5501bfab36,
-7whfl0yj32bpid8xy7whf3ag6yklrcu4,5.9,19.25,2.5,28.2,171,70,Advanced,1,25,completed,2025-03-13 18:03:00,,2025-03-13 18:04:23,52aef8be40,
+"7whfl0yj32bpid8xy7whf3ag6yklrcu4,""5,9"",""19,25"",""2,5"",""28,2"",""1,71"",70,Advanced,1,25,completed,2025-03-13 18:03:00,,2025-03-13 18:04:23,52aef8be40,"
 "x1hmf8idltu0lx1hmf5o7uk6hut2cyl0,5.8,20 1/4,2 11/16,34,""1,74"",75,Beginner,0,31,completed,2025-03-13 17:59:03,,2025-03-13 18:02:06,dca667dd6e,"
 "ikusnlbfrnx4ukikusn2vxiostc2cv1t,5.11,""19,5"",2.5,""27,6"",184,78,Intermediate,1,28,completed,2025-03-13 17:58:19,,2025-03-13 18:13:02,b4f9cc1e35,"
 0ibzfg625imr24zbh0dac94drsu07j0e,5.11,19,2.43,29,186,79,Advanced,0,33,completed,2025-03-13 17:44:50,,2025-03-13 17:47:48,f3a0d25e84,
