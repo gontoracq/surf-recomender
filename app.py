@@ -123,7 +123,7 @@ result[features + board_features] = imputer.fit_transform(
     result[features + board_features]
 )
 
-pesos = np.array([2, 2, 3, 1])
+pesos = np.array([2, 2, 10, 1])
 
 X = result[features]
 y = result[board_features]
@@ -318,7 +318,7 @@ if st.button("Recomendar"):
 
     st.write(f"Similitud encontrada: {resultado['confianza']}")
     
-    st.write("### Score recomendación")
+    st.write("### Porcentaje de similitud")
 
     st.progress(resultado["score"] / 100)
 
