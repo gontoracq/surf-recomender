@@ -5,6 +5,9 @@ from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, r2_score
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -133,11 +136,42 @@ X_scaled = scaler.fit_transform(X)
 # Aplicar pesos
 X_weighted = X_scaled * pesos
 
+# ---------------- EVALUACION MODELO ----------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_weighted,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
 knn = NearestNeighbors(
     n_neighbors=3,
     metric="cosine"
 )
 
+knn.fit(X_train)
+
+# Predicciones manuales usando vecinos
+predicciones = []
+
+for x in X_test:
+
+    distancias, idx = knn.kneighbors([x])
+
+    pred = y_train.iloc[idx[0]].median(numeric_only=True)
+
+    predicciones.append(pred.values)
+
+predicciones = np.array(predicciones)
+
+# Score MAE
+mae = mean_absolute_error(y_test, predicciones)
+
+# Score R2
+r2 = r2_score(y_test, predicciones)
+
+# Reentrenar con TODOS los datos
 knn.fit(X_weighted)
 
 # ---------------- ALGORITMO RECOMENDADOR ----------------
@@ -195,6 +229,11 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
         "tipo": tipo_tabla,
         "confianza": confianza
     }
+
+    
+    # Habría que calcular el porcentaje de acierto sobre la predicción y sacarlo y si no el
+    # del propio algoritmo una vez se ha entrenado mas arriba decir nuestras predicciones
+    # son de tanto
 
 # ------------------ SCRAPPING -------------------------
 
@@ -273,6 +312,12 @@ if st.button("Recomendar"):
     st.write("### Confianza recomendación")
 
     st.write(f"Similitud encontrada: {resultado['confianza']}")
+    
+    st.write("### Precisión del algoritmo")
+
+    st.write(f"Error medio (MAE): {round(mae, 2)}")
+
+    st.write(f"Precisión R²: {round(r2 * 100, 2)}%")
 
     #st.write(f"{resultado['confianza']}% similitud con surfers reales")
     
@@ -297,5 +342,3 @@ if st.button("Recomendar"):
         """
     )
     
-#print(df['surfer_height'].head())
-#print(df2['surfer_height'].head())
