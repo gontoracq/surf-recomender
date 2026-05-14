@@ -74,7 +74,7 @@ df = df[feat]
 df2 = df2[feat]
 df3 = df3.drop([7, 8])
 
-#df['board_length'] = df['board_length'] * 3.28084
+df['board_length'] = df['board_length'] * 3.28084
 #df['surfer_height'] = df['surfer_height'] * 100
 
 df = df.round(3)
@@ -352,4 +352,6 @@ if st.button("Recomendar"):
         ### [🔎 Ver tablas recomendadas en Decathlon]({url_decathlon})
         """
     )
-        
+      
+    
+#print(df['board_length'].head(20))
