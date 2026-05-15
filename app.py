@@ -48,9 +48,13 @@ def parse_surf_length(x):
         return np.nan
     
 def inches_to_feet_str(inches):
-    feet = int(inches // 12)
-    remaining = round(inches % 12, 1)
-    return f"{feet}'{remaining}\""
+
+    total_inches = round(inches)
+
+    feet = total_inches // 12
+    remaining_inches = total_inches % 12
+
+    return f"{feet}'{remaining_inches}"
 
 # ---------------- CARGA DATOS ----------------
 
@@ -262,7 +266,7 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
         confianza = "Baja"
     
     if olas_grandes:
-        recomendacion["board_length"] += 0.1
+        recomendacion["board_length"] += 1
         tipo_tabla = "Hardboard"
 
     if recomendacion["board_volume"] > 60:
