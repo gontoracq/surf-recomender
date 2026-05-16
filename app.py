@@ -310,7 +310,7 @@ def generar_busqueda_decathlon(medidas, tipo):
 
     query = query.replace(" ", "%20")
 
-    return f"https://www.mundo-surf.com/es/?mot_q=={query}"
+    return f"https://www.mundo-surf.com/es/?mot_q={query}"
 
 # ---------------- UI ----------------
 
