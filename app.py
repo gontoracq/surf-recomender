@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 
 import re
 
+# ---------------- FUNCIONES AUXILIARES--------------
+
 def parse_surf_length(x):
     if pd.isna(x):
         return np.nan
@@ -259,7 +261,7 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
     if distancia_media < 0.05:
         confianza = "Alta"
     
-    elif distancia_media < 0.15:
+    elif distancia_media < 0.10:
         confianza = "Media"
     
     else:
@@ -308,11 +310,11 @@ def generar_busqueda_decathlon(medidas, tipo):
 
     query = query.replace(" ", "%20")
 
-    return f"https://www.decathlon.co.uk/search?Ntt={query}"
+    return f"https://www.mundo-surf.com/es/search?Ntt={query}"
 
 # ---------------- UI ----------------
 
-st.title("🏄 Recomendador de tablas de surf")
+st.title("🏄 Meet Your Surf")
 
 col1, col2 = st.columns(2)
 
