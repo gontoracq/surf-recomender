@@ -271,9 +271,9 @@ def recomendar_tabla(altura, peso, nivel, olas_grandes):
         recomendacion["board_length"] += 1
         tipo_tabla = "Hardboard"
 
-    if recomendacion["board_volume"] > 60:
+    if recomendacion["board_volume"] > 50:
         tipo_tabla = 'Softboard'
-    elif 50 <= recomendacion["board_volume"] <= 60:
+    elif 45 <= recomendacion["board_volume"] <= 60:
         tipo_tabla = 'Softboard o Hardboard'
 
     return {
@@ -310,7 +310,7 @@ def generar_busqueda_decathlon(medidas, tipo):
 
     query = query.replace(" ", "%20")
 
-    return f"https://www.mundo-surf.com/es/search?Ntt={query}"
+    return f"https://www.mundo-surf.com/es/?mot_q=={query}"
 
 # ---------------- UI ----------------
 
@@ -402,7 +402,7 @@ if st.button("Recomendar"):
     
     st.markdown(
         f"""
-        ### [🔎 Ver tablas recomendadas en Decathlon]({url_decathlon})
+        ### [🔎 Ver tablas recomendadas en Mundosurf]({url_decathlon})
         """
     )
       
