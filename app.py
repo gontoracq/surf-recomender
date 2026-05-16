@@ -16,36 +16,35 @@ import re
 # ---------------- FUNCIONES AUXILIARES--------------
 
 def parse_surf_length(x):
+
     if pd.isna(x):
         return np.nan
-    
-    x = str(x).strip()
 
-    # Caso 5.10 1/2 o similares
-    if " " in x:
-        parts = x.split()
+    x = str(x).strip().lower()
 
-        base = parts[0]
-        frac = parts[1] if len(parts) > 1 else "0"
+    # limpiar caracteres raros
+    x = x.replace('"', '')
+    x = x.replace("ft", "")
+    x = x.replace("in", "")
+    x = x.strip()
 
-        # 5.10 -> pies + decimales mal usados
-        try:
-            feet = float(base)
-        except:
+    # FORMATO SURF: 5.10 o 5'10
+    match = re.match(r"(\d+)[\.\'](\d+)", x)
+
+    if match:
+
+        feet = int(match.group(1))
+        inches = int(match.group(2))
+
+        # evitar barbaridades tipo 5.15
+        if inches > 11:
             return np.nan
 
-        # fracción tipo 1/2
-        if "/" in frac:
-            num, den = frac.split("/")
-            frac_val = float(num) / float(den)
-        else:
-            frac_val = 0
+        return feet * 12 + inches
 
-        return feet * 12 + frac_val * 12
-
-    # Caso simple 5.10 o 5.1
+    # Caso entero simple: 6
     try:
-        return float(x) * 12
+        return int(float(x)) * 12
     except:
         return np.nan
     
@@ -176,7 +175,7 @@ result[features + board_features] = imputer.fit_transform(
     result[features + board_features]
 )
 
-pesos = np.array([2, 2, 10, 1])
+pesos = np.array([2, 2, 20, 1])
 
 X = result[features]
 y = result[board_features]
